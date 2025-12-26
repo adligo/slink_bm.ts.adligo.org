@@ -9,14 +9,14 @@ Step 2) [Install GitBash](https://git-scm.com/install/) click on the git-scm.com
 Step 3) Clone this repository from github.com from the GitBash command prompt with the following command;
 
 ```
-git clone https://github.com/adligo/slink_docker.ts.adligo.org.git
+git clone https://github.com/adligo/slink_bm.ts.adligo.org.git
 ```
 
 Step 4) Download the dependencies;
 
 ```
-cd slink-group
-./setup_from_github.sh
+cd slink_bm.ts.adligo.org/slink-group/
+./setup_from_github_https.sh
 ```
 
 The above script should take a few minutes as it clones a lot of other repositories, it should look something like the following;
