@@ -36,7 +36,7 @@ npm run build
 npm run tests
 ```
 
-Also note that these command simply call the library projects using the order in [buildSrc/projects.cjs](buildSrc/projects.cjs), you can also work on any of those projects there.  If you want to commit back to github create a fork of the project your working on and work on your fork, then when you have somthing to review let the [Adligo Discord Community](https://github.com/adligo/overview.adligo.org?tab=readme-ov-file#community) know.
+Also note that these command simply call the library projects using the order in [slink-group/slink_group.ts.adligo.org/buildSrc/projects.cjs](https://github.com/adligo/slink_group.ts.adligo.org/blob/main/buildSrc/projects.cjs), you can also work on any of those projects there.  If you want to commit back to github create a fork of the project your working on and work on your fork, then when you have something to review let the [Adligo Discord Community](https://github.com/adligo/overview.adligo.org?tab=readme-ov-file#community) know.
 
 ##### Note:
 
