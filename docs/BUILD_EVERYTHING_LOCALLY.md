@@ -2,23 +2,33 @@
 
 This workflow requires that you setup your machine with node and GitBash;
 
-Step 1) [Install Node.js](https://nodejs.org/en/download) click on the nodejs.org link at the left and follow the installation instructions.  I was on version v24.2.0 when I wrote this but any version after that should work as well.
+### Step 1)
 
-Step 2) [Install GitBash](https://git-scm.com/install/) click on the git-scm.com link at the left and follow the installation instructions.  I was on version v2.51.2 (ReleaseNotes.html where you installed it) when I wrote this but if you install GitBash it will auto update often and keep you on a current version which should work well.
+ [Install Node.js](https://nodejs.org/en/download) click on the nodejs.org link at the left and follow the installation instructions.  I was on version v24.2.0 when I wrote this but any version after that should work as well.
 
-Step 3) [Install SLink](https://www.npmjs.com/package/@ts.adligo.org/slink), note this is somewhat counter intuitive [@see note](https://github.com/adligo/slink_bm.ts.adligo.org/tree/main?tab=readme-ov-file#slink-historical-notes);
+### Step 2)
+
+[Install GitBash](https://git-scm.com/install/) click on the git-scm.com link at the left and follow the installation instructions.  I was on version v2.51.2 (ReleaseNotes.html where you installed it) when I wrote this but if you install GitBash it will auto update often and keep you on a current version which should work well.
+
+### Step 3)
+
+[Install SLink](https://www.npmjs.com/package/@ts.adligo.org/slink), note this is somewhat counter intuitive [@see note](https://github.com/adligo/slink_bm.ts.adligo.org/tree/main?tab=readme-ov-file#slink-historical-notes);
 
 ```
 npm install -g @ts.adligo.org/slink
 ```
 
-Step 4) Clone this repository from github.com from the GitBash command prompt with the following command;
+### Step 4)
+
+Clone this repository from github.com from the GitBash command prompt with the following command;
 
 ```
 git clone https://github.com/adligo/slink_bm.ts.adligo.org.git
 ```
 
-Step 5) Download the dependencies, and run the full build and tests
+### Step 5)
+
+Download the dependencies, and run the full build and tests
 
 ```
 cd slink_bm.ts.adligo.org/slink-group/
@@ -29,7 +39,9 @@ Make sure you are using the setup_from_github_https.sh script and NOT the setup_
 
 ![Picture of Steps 4-5](BuildEveythingSteps4-5.png)
 
-Step 6) Now you can run the following build and test commands at any point;
+### Step 6)
+
+Now you can run the following build and test commands at any point;
 
 ```
 npm run build
