@@ -35,7 +35,7 @@ cd slink_bm.ts.adligo.org/slink-group/
 ./setup_from_github_https.sh
 ```
 
-Make sure you are using the setup_from_github_https.sh script and NOT the setup_from_github.sh script as your not a maintainer of the project.  The above script should take a few minutes as it clones a lot of other repositories, it should look something like the following;
+Make sure you are using the <strong><b>setup_from_github_https.sh</b></strong> script and <strong><b>NOT</b></strong> the <strong><b>setup_from_github.sh</b></strong> script as your not a maintainer of the project.  The above script should take a few minutes as it clones a lot of other repositories, it should look something like the following;
 
 ![Picture of Steps 4-5](BuildEveythingSteps4-5.png)
 
