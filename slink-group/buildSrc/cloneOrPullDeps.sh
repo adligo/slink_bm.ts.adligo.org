@@ -29,20 +29,6 @@ function doCd() {
   
 }
 
-pwd
-EXIT_CODE=$?
-if (( $EXIT_CODE == 0 )); then
-  if [[ $VERBOSE == "true" ]]; then
-    echo "In dir ROOT_DIR;"
-    $ROOT_DIR
-  fi
-else
-  echo "Unable to identify the root path, ensure pwd is in your path!"
-  exit 11
-fi
-ROOT_DIR=`pwd`
-
-
 
 if [[ -d "slink_group_deps.ts.adligo.org" ]]; then
   doCd slink_group_deps.ts.adligo.org
@@ -78,7 +64,10 @@ else
   doCd slink_group_deps.ts.adligo.org
 fi
 
-
+if [[ $VERBOSE == "true" ]]; then
+  echo "Starting npm install in dir"
+  pwd
+fi
 npm install
 EXIT_CODE=$?
 if (( $EXIT_CODE == 0 )); then
