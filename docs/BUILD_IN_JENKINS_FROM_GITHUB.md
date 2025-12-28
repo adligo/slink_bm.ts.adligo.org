@@ -2,6 +2,8 @@
 
 Workflow 3 can be done either in Jenkins running inside of Docker, or Jenkins running on your local machine.
 
+TODO this section is not complete
+
 ## 3.a) Jenkins in Docker
 
 ### Step 3.a.1) 
@@ -27,6 +29,23 @@ docker pull jenkins/jenkins:lts-jdk17
 ### Step 1)
 
 You will need to install Java
+
+
+
+...
+## 3.c) Setup the Jenkins Build
+
+Once you have Jenkins up and running create a 'New Item';
+
+![Jenkins Main Menu](Jenkins.png)
+
+Then use a freestyle project;
+
+![Jenkins Freestyle Project](FreestyleProject.png)
+
+### 3.c.1) Use the jenkins.sh for your 'Execute Shell' build step;
+
+[jenkins.sh](../jenkins.sh) 
 
 ##### Note:
 

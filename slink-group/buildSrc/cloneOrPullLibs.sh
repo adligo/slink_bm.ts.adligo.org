@@ -14,6 +14,20 @@ while (( "$#" )); do
   esac
 done
 
+function doCd() {
+  cd $1
+  EXIT_CODE=$?
+  if (( $EXIT_CODE == 0 )); then
+    if [[ $VERBOSE == "true" ]]; then
+      echo "Sucessfully moved(changed) into $1"
+    fi
+  else
+    echo "Unable to move(change) into $1"
+    exit 79
+  fi
+  
+}
+
 pwd
 EXIT_CODE=$?
 if (( $EXIT_CODE == 0 )); then
@@ -27,23 +41,9 @@ else
 fi
 ROOT_DIR=`pwd`
 
-function cdProj() {
-  cd slink_group.ts.adligo.org
-  EXIT_CODE=$?
-  if (( $EXIT_CODE == 0 )); then
-    if [[ $VERBOSE == "true" ]]; then
-      echo "In dir"
-      pwd
-    fi
-  else
-    echo "Unable to move (change) into the directory;"
-    echo "slink_group.ts.adligo.org"
-    exit 27
-  fi
-}
 
 if [[ -d "slink_group.ts.adligo.org" ]]; then
-  cdProj
+  doCd slink_group.ts.adligo.org
   git pull
   EXIT_CODE=$?
   if (( $EXIT_CODE == 0 )); then
@@ -73,7 +73,7 @@ else
     echo "slink_group.ts.adligo.org"
     exit 51
   fi
-  cdProj
+  doCd slink_group.ts.adligo.org
 fi
 
 npm run git-clone-or-pull

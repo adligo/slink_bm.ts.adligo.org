@@ -15,6 +15,20 @@ while (( "$#" )); do
 done
 
 
+function doCd() {
+  cd $1
+  EXIT_CODE=$?
+  if (( $EXIT_CODE == 0 )); then
+    if [[ $VERBOSE == "true" ]]; then
+      echo "Sucessfully moved(changed) into $1"
+    fi
+  else
+    echo "Unable to move(change) into $1"
+    exit 79
+  fi
+  
+}
+
 pwd
 EXIT_CODE=$?
 if (( $EXIT_CODE == 0 )); then
@@ -31,18 +45,7 @@ ROOT_DIR=`pwd`
 
 
 if [[ -d "slink_group_deps.ts.adligo.org" ]]; then
-  cd slink_group_deps.ts.adligo.org
-  EXIT_CODE=$?
-  if (( $EXIT_CODE == 0 )); then
-    if [[ $VERBOSE == "true" ]]; then
-      echo "In dir"
-      pwd
-    fi
-  else
-    echo "Unable to move (change) into the directory;"
-    echo "slink_group_deps.ts.adligo.org"
-    exit 26
-  fi
+  doCd slink_group_deps.ts.adligo.org
   git pull
   EXIT_CODE=$?
   if (( $EXIT_CODE == 0 )); then
@@ -72,6 +75,7 @@ else
     echo "slink_group_deps.ts.adligo.org"
     exit 51
   fi
+  doCd slink_group_deps.ts.adligo.org
 fi
 
 

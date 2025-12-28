@@ -6,6 +6,7 @@
 # If your a maintainer feel free to update when they differ from the line numbers.
 # 
 
+VERSION="2025-12-28#2"
 ### Configuration Section ###
 #
 # ORIGIN one of {'github','localdisk'}
@@ -56,23 +57,28 @@ fi
 echo "Running git version"
 git -v
 
+function doRm_fr() {
+  rm -fr $1
+  EXIT_CODE=$?
+  if (( $EXIT_CODE == 0 )); then
+    echo "Sucessfully removed directory"
+    echo $1
+    echo "in"
+    pwd
+  else
+    echo "Failed to remove directory"
+    echo $1
+    echo "in"
+    pwd
+    exit 72
+  fi
+}
+
 if [[ $CLEAN == "true" ]]; then
   echo "cleaning dir;"
-  PWD=`pwd`
-  echo $PWD'/'$CLEAN_WORK_DIR_ID
-  if [[ -d $CLEAN_WORK_DIR_ID ]]; then
-    rm -fr $CLEAN_WORK_DIR_ID
-    EXIT_CODE=$?
-    if (( $EXIT_CODE == 0 )); then
-      echo "Sucessfully removed directory $CLEAN_WORK_DIR_ID"
-    else
-      echo "Failed to remove directory $CLEAN_WORK_DIR_ID"
-      exit 41
-    fi
-  else
-    echo "The following directory doesn't exist!"
-    echo $CLEAN_WORK_DIR_ID
-    exit 46
+  echo "$CLEAN_WORK_DIR_ID"
+  if [[ -d "$CLEAN_WORK_DIR_ID" ]]; then
+    doRm_fr $CLEAN_WORK_DIR_ID
   fi
 fi
 
@@ -156,6 +162,8 @@ function doScript() {
   else
     echo "There was a problem executing the following script"
     echo $1
+    echo "in"
+    pwd
     exit 150
   fi
 }
@@ -164,27 +172,35 @@ doScript ./slink-group/buildSrc/checkVersions.sh
 
 function doHttps() {
   if [[ $VERBOSE == "true" ]]; then
-    doScript ./slink-group/buildSrc/cloneOrPullDeps.sh --verbose
-    doScript ./slink-group/buildSrc/cloneOrPullLibs.sh --verbose
-    doScript ./slink-group/buildSrc/setupBuildTest.sh --verbose
+    doScript ./buildSrc/cloneOrPullDeps.sh --verbose
+    doScript ./buildSrc/cloneOrPullLibs.sh --verbose
+    doCd slink_group.ts.adligo.org
+    doScript ../buildSrc/setupBuildTest.sh --verbose
   else
-    doScript ./slink-group/buildSrc/cloneOrPullDeps.sh
-    doScript ./slink-group/buildSrc/cloneOrPullLibs.sh
-    doScript ./slink-group/buildSrc/setupBuildTest.sh
+    doScript ./buildSrc/cloneOrPullDeps.sh
+    doScript ./buildSrc/cloneOrPullLibs.sh
+    doCd slink_group.ts.adligo.org
+    doScript ../buildSrc/setupBuildTest.sh
   fi
 }
 
 function doSsl() {
   if [[ $VERBOSE == "true" ]]; then
-    doScript ./slink-group/buildSrc/cloneOrPullDeps.sh --ssl --verbose
-    doScript ./slink-group/buildSrc/cloneOrPullLibs.sh --ssl --verbose
-    doScript ./slink-group/buildSrc/setupBuildTest.sh --ssl --verbose
+    doScript ./buildSrc/cloneOrPullDeps.sh --ssl --verbose
+    doScript ./buildSrc/cloneOrPullLibs.sh --ssl --verbose
+    doCd slink_group.ts.adligo.org
+    doScript ../buildSrc/setupBuildTest.sh --ssl --verbose
   else
-    doScript ./slink-group/buildSrc/cloneOrPullDeps.sh --ssl 
-    doScript ./slink-group/buildSrc/cloneOrPullLibs.sh --ssl 
-    doScript ./slink-group/buildSrc/setupBuildTest.sh --ssl 
+    doScript ./buildSrc/cloneOrPullDeps.sh --ssl
+    doScript ./buildSrc/cloneOrPullLibs.sh --ssl
+    doCd slink_group.ts.adligo.org
+    doScript ../buildSrc/setupBuildTest.sh --ssl
   fi
 }
+
+echo "in jenkins_from_github.sh"
+pwd
+doCd slink-group
 
 case "$GIT_PROTOCOL" in
   https) doHttps
@@ -197,3 +213,17 @@ case "$GIT_PROTOCOL" in
       doLocal
       ;;
 esac
+
+doCd $ROOT_WORKSPACE
+if [[ -d "test-results" ]]; then
+  doRm_fr test-results
+fi
+
+mkDir test-results
+# gh_slink_bm.ts.adligo.org/1/slink_bm.ts.adligo.org/slink-group/slink_group.ts.adligo.org/
+cp -r $ROOT_WORKSPACE/$WORK_DIR_ID/$GIT_REPOSITORY_PATH/slink-group/slink_group.ts.adligo.org/depot/test-results/**.*xml test-results
+# rsync -avm --include='*.xml' -f 'hide,! */' $ROOT_WORKSPACE/$WORK_DIR_ID/$GIT_REPOSITORY_PATH/slink_group.ts.adligo.org/depot/test-results test-results/
+echo "You can now publish using the JUnit Test Repoter with the following path;"
+echo "test-results/**.*xml"
+
+echo "Sucessfully ran the jenkins.sh script version $VERSION!"
