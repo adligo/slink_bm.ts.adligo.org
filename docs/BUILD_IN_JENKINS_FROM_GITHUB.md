@@ -34,6 +34,7 @@ docker run -d -p 8528:8080 --name slink-bm3-c4 slink-bm3
 
 Set the shell to /bin/bash in Jenkins Management;
 
+![Jenkins System Management](JenkinsSystemManagement.png)
 ![Jenkins with Bash as the default Shell](JenkinsWithBashSetup.png)
 
 
@@ -75,11 +76,11 @@ Once you have Jenkins up install the default dependencies and setup your adminis
 
 Once you have Jenkins up and running create a 'New Item';
 
-![Jenkins Main Menu](Jenkins.png)
+![Jenkins New Item](JenkinsNewItem.png)
 
 Then use a freestyle project;
 
-![Jenkins Freestyle Project](FreestyleProject.png)
+![Jenkins Freestyle Project](JenkinsFreestyleProject.png)
 
 ### 3.c.3) Use the jenkins.sh for your 'Execute Shell' build steps;
 
