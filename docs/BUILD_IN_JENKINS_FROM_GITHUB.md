@@ -1,6 +1,32 @@
 # Workflow 3) Build In Jenkins from Github
 
-## TODO
+Workflow 3 can be done either in Jenkins running inside of Docker, or Jenkins running on your local machine.
+
+## 3.a) Jenkins in Docker
+
+### Step 3.a.1) 
+
+[DockerDesktop](https://docs.docker.com/desktop/) Click on the link at the left and scroll to the bottom in order to install Docker Desktop.
+
+### Step 3.a.2)
+
+[Install GitBash](https://git-scm.com/install/) click on the git-scm.com link at the left and follow the installation instructions.  I was on version v2.51.2 (ReleaseNotes.html where you installed it) when I wrote this but if you install GitBash it will auto update often and keep you on a current version which should work well.
+
+### Step 3.a.3)
+
+Start Docker Desktop, open a Git Bash prompt and run these commands;
+
+```
+docker pull jenkins/jenkins:lts-jdk17
+```
+
+## 3.b) Jenkins directly on your local machine
+
+<strong><b>Note:</b></strong> You will want to do this if you are a maintainer, since you will be able to see if you break the build on GitHub before you send source code there.
+
+### Step 1)
+
+You will need to install Java
 
 ##### Note:
 
