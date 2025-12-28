@@ -6,7 +6,7 @@
 # If your a maintainer feel free to update when they differ from the line numbers.
 # 
 
-VERSION="2025-12-28#4"
+VERSION="2025-12-28#5"
 ### Configuration Section ###
 #
 # ORIGIN one of {'github','localdisk'}
@@ -24,7 +24,7 @@ GIT_REPOSITORY_PATH=slink_bm.ts.adligo.org
 GIT_REPOSITORY=$GIT_REPOSITORY_BASE$GIT_REPOSITORY_PATH'.git'
 ROOT_WORKSPACE=`pwd`
 
-
+export PATH=$PATH:/usr/bin
 #
 # Note the concept of a work dir with a id number, exists because I have seen 
 # Jenkins get stopped in the middle of builds creating inconsitent disk states
@@ -46,18 +46,19 @@ export SLINK_NODE_MODULE_SLINK=$COMMON_NODE_MODULES
 ### Execution Section ###
 which git
 EXIT_CODE=$?
-if (( $EXIT_CODE == 0 )); then
+if [[ "$EXIT_CODE" == "0" ]]; then
   if [[ $VERBOSE == "true" ]]; then
     echo "Git appears to be installed"
   fi
 else
-  echo "Please install git on this system and put it in the $PATH variable!"
+  echo "Please install git on this system and put it in the PATH variable!"
+  echo "which git returned a EXIT_CODE '$EXIT_CODE'"
   exit 44
 fi
 echo "Running git version"
 git -v
 
-function doRm_fr() {
+function doRm_fr () {
   rm -fr $1
   EXIT_CODE=$?
   if (( $EXIT_CODE == 0 )); then
@@ -74,7 +75,7 @@ function doRm_fr() {
   fi
 }
 
-function doCd() {
+function doCd () {
   cd $1
   EXIT_CODE=$?
   if (( $EXIT_CODE == 0 )); then
@@ -133,7 +134,7 @@ else
   doCd $GIT_REPOSITORY_PATH
 fi
 
-function doScript() {
+function doScript () {
   echo "doingScript $1"
   eval "$1"
   EXIT_CODE=$?
@@ -153,7 +154,7 @@ function doScript() {
 
 doScript ./slink-group/buildSrc/checkVersions.sh
 
-function doHttps() {
+function doHttps () {
   if [[ $VERBOSE == "true" ]]; then
     doScript ./buildSrc/cloneOrPullDeps.sh --verbose
     doScript ./buildSrc/cloneOrPullLibs.sh --verbose
@@ -167,7 +168,7 @@ function doHttps() {
   fi
 }
 
-function doSsl() {
+function doSsl () {
   if [[ $VERBOSE == "true" ]]; then
     doScript ./buildSrc/cloneOrPullDeps.sh --ssl --verbose
     doScript ./buildSrc/cloneOrPullLibs.sh --ssl --verbose
@@ -202,7 +203,7 @@ if [[ -d "test-results" ]]; then
   doRm_fr test-results
 fi
 
-mkDir test-results
+mkdir test-results
 # gh_slink_bm.ts.adligo.org/1/slink_bm.ts.adligo.org/slink-group/slink_group.ts.adligo.org/
 cp -r $ROOT_WORKSPACE/$WORK_DIR_ID/$GIT_REPOSITORY_PATH/slink-group/slink_group.ts.adligo.org/depot/test-results/**.*xml test-results
 # rsync -avm --include='*.xml' -f 'hide,! */' $ROOT_WORKSPACE/$WORK_DIR_ID/$GIT_REPOSITORY_PATH/slink_group.ts.adligo.org/depot/test-results test-results/

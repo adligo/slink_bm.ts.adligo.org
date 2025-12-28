@@ -16,11 +16,43 @@ TODO this section is not complete
 
 ### Step 3.a.3)
 
+Clone this repository with something like;
+
+```
+git clone https://github.com/adligo/slink_bm.ts.adligo.org.git
+```
+
+### Step 3.a.4)
+
 Start Docker Desktop, open a Git Bash prompt and run these commands;
 
 ```
-docker pull jenkins/jenkins:lts-jdk17
+cd slink_bm.ts.adligo.org/jenkins
+docker build --progress=plain -t slink-bm3 .
+docker run -d -p 8528:8080 --name slink-bm3-c4 slink-bm3
 ```
+
+### Step 3.a.5)
+
+Set the shell to /bin/bash in Jenkins Management;
+
+![Jenkins with Bash as the default Shell](JenkinsWithBashSetup.png)
+
+Also these commands might come in handy;
+
+On Windows in Git Bash;
+```
+winpty docker exec -it -u root <containerId/> bash
+```
+On Max Os or other Unix
+```
+docker exec -it -u root <containerId/> bash
+```
+Then 
+```
+cat /var/jenkins_home/secrets/initialAdminPassword
+```
+
 
 ## 3.b) Jenkins directly on your local machine
 
