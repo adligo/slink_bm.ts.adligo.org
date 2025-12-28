@@ -6,7 +6,7 @@
 # If your a maintainer feel free to update when they differ from the line numbers.
 # 
 
-VERSION="2025-12-28#2"
+VERSION="2025-12-28#4"
 ### Configuration Section ###
 #
 # ORIGIN one of {'github','localdisk'}
@@ -33,12 +33,12 @@ ROOT_WORKSPACE=`pwd`
 #
 WORK_DIR_ID=1
 
-CLEAN=false
-CLEAN_WORK_DIR_ID=1
 VERBOSE=true
+START=$SECONDS
+MAX_SECONDS=240
 
 ## Fast setup through env variables, this can be commented out to test discover or the common node_modules code 
-export COMMON_NODE_MODULES=$ROOT_WORKSPACE/$WORK_DIR_ID/$GIT_REPOSITORY_PATH/slink_group_deps.ts.adligo.org/node_modules
+export COMMON_NODE_MODULES=$ROOT_WORKSPACE/$WORK_DIR_ID/$GIT_REPOSITORY_PATH/slink-group/slink_group_deps.ts.adligo.org/node_modules
 export TESTS4TS_NODE_MODULE_SLINK=$COMMON_NODE_MODULES
 export JUNIT_XML_NODE_MODULE_SLINK=$COMMON_NODE_MODULES
 export OBJ_NODE_MODULE_SLINK=$COMMON_NODE_MODULES
@@ -74,14 +74,6 @@ function doRm_fr() {
   fi
 }
 
-if [[ $CLEAN == "true" ]]; then
-  echo "cleaning dir;"
-  echo "$CLEAN_WORK_DIR_ID"
-  if [[ -d "$CLEAN_WORK_DIR_ID" ]]; then
-    doRm_fr $CLEAN_WORK_DIR_ID
-  fi
-fi
-
 function doCd() {
   cd $1
   EXIT_CODE=$?
@@ -96,15 +88,6 @@ function doCd() {
   
 }
 
-WORK_DIR=`pwd`
-EXIT_CODE=$?
-if (( $EXIT_CODE == 0 )); then
-  echo "Sucessfully identified WORK_DIR as"
-  echo $WORK_DIR
-else
-  echo "Failed to identify WORK_DIR"
-  exit 57
-fi
   
 if [[ -d $WORK_DIR_ID ]]; then
   echo "The following directory exists;"
@@ -226,4 +209,13 @@ cp -r $ROOT_WORKSPACE/$WORK_DIR_ID/$GIT_REPOSITORY_PATH/slink-group/slink_group.
 echo "You can now publish using the JUnit Test Repoter with the following path;"
 echo "test-results/**.*xml"
 
-echo "Sucessfully ran the jenkins.sh script version $VERSION!"
+duration=$(( SECONDS - START ))
+if (( $duration > MAX_SECONDS )) ; then
+  echo "Task completed in $duration seconds."
+  echo "Sucessfully ran the jenkins.sh script version $VERSION!"
+  echo "Build Failed, excessive time used!"
+  exit 226
+else
+  echo "Task completed in $duration seconds."
+  echo "Sucessfully ran the jenkins.sh script version $VERSION!"
+fi

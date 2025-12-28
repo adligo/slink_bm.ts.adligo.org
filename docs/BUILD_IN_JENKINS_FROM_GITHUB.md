@@ -43,9 +43,10 @@ Then use a freestyle project;
 
 ![Jenkins Freestyle Project](FreestyleProject.png)
 
-### 3.c.1) Use the jenkins.sh for your 'Execute Shell' build step;
+### 3.c.1) Use the jenkins.sh for your 'Execute Shell' build steps;
 
-[jenkins.sh](../jenkins.sh) 
+[Step 1) A optional cleaning step jenkins_clean.sh](../jenkins_clean.sh) 
+[Step 2) jenkins_clean.sh](../jenkins_clean.sh) 
 
 ##### Note:
 
