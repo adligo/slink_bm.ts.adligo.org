@@ -1,4 +1,6 @@
 #
+# This script is expected to be executed by GitBash or Jenkins
+#
 # Note the #!/bin/bash directive has been removed as Jenkins on Windows will complain about it
 #
 VERBOSE=false

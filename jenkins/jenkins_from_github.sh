@@ -21,6 +21,8 @@ GIT_REPOSITORY_BASE=$GIT_PROTOCOL'://github.com/adligo/'
 #
 GIT_REPOSITORY_PATH=slink_bm.ts.adligo.org
 GIT_REPOSITORY=$GIT_REPOSITORY_BASE$GIT_REPOSITORY_PATH'.git'
+ROOT_WORKSPACE=`pwd`
+
 
 #
 # Note the concept of a work dir with a id number, exists because I have seen 
@@ -33,6 +35,13 @@ WORK_DIR_ID=1
 CLEAN=false
 CLEAN_WORK_DIR_ID=1
 VERBOSE=true
+
+## Fast setup through env variables, this can be commented out to test discover or the common node_modules code 
+export COMMON_NODE_MODULES=$ROOT_WORKSPACE/$WORK_DIR_ID/$GIT_REPOSITORY_PATH/slink_group_deps.ts.adligo.org/node_modules
+export TESTS4TS_NODE_MODULE_SLINK=$COMMON_NODE_MODULES
+export JUNIT_XML_NODE_MODULE_SLINK=$COMMON_NODE_MODULES
+export OBJ_NODE_MODULE_SLINK=$COMMON_NODE_MODULES
+export SLINK_NODE_MODULE_SLINK=$COMMON_NODE_MODULES
 ### Execution Section ###
 which git
 EXIT_CODE=$?
@@ -46,33 +55,6 @@ else
 fi
 echo "Running git version"
 git -v
-
-which npm
-EXIT_CODE=$?
-if (( $EXIT_CODE == 0 )); then
-  if [[ $VERBOSE == "true" ]]; then
-    echo "Npm appears to be installed"
-  fi
-else
-  echo "Please install Node.js on this system and put npm in the $PATH variable!"
-  exit 57
-fi
-echo "Running npm version"
-npm -v
-
-which slink
-EXIT_CODE=$?
-if (( $EXIT_CODE == 0 )); then
-  if [[ $VERBOSE == "true" ]]; then
-    echo "Slink appears to be installed"
-  fi
-else
-  echo "Please install Slink on this system and put npm in the $PATH variable!"
-  exit 70
-fi
-echo "Running slink version"
-slink -v
-
 
 if [[ $CLEAN == "true" ]]; then
   echo "cleaning dir;"
@@ -93,6 +75,20 @@ if [[ $CLEAN == "true" ]]; then
     exit 46
   fi
 fi
+
+function doCd() {
+  cd $1
+  EXIT_CODE=$?
+  if (( $EXIT_CODE == 0 )); then
+    if [[ $VERBOSE == "true" ]]; then
+      echo "Sucessfully moved(changed) into $1"
+    fi
+  else
+    echo "Unable to move(change) into $1"
+    exit 79
+  fi
+  
+}
 
 WORK_DIR=`pwd`
 EXIT_CODE=$?
@@ -118,28 +114,10 @@ else
   fi
 fi
 
-cd $WORK_DIR_ID
-EXIT_CODE=$?
-if (( $EXIT_CODE == 0 )); then
-  if [[ $VERBOSE == "true" ]]; then
-    echo "Moved into $WORK_DIR_ID"
-  fi
-else
-  echo "Unable to move(change) into directory $WORK_DIR_ID"
-  exit 84
-fi
+doCd $WORK_DIR_ID
 
 if [[ -d $GIT_REPOSITORY_PATH ]]; then
-  cd $GIT_REPOSITORY_PATH
-  EXIT_CODE=$?
-  if (( $EXIT_CODE == 0 )); then
-    if [[ $VERBOSE == "true" ]]; then
-      echo "Sucessfully moved(changed) into $GIT_REPOSITORY_PATH"
-    fi
-  else
-    echo "Unable to move(change) into $GIT_REPOSITORY_PATH"
-    exit 96
-  fi
+  doCd $GIT_REPOSITORY_PATH
   git pull
   EXIT_CODE=$?
   if (( $EXIT_CODE == 0 )); then
@@ -163,37 +141,53 @@ else
     echo "Unable to clone $GIT_REPOSITORY"
     exit 119
   fi
+  doCd $GIT_REPOSITORY_PATH
 fi
 
-
-
-function doCd() {
-  echo "doingCd"
-  
+function doScript() {
+  echo "doingScript $1"
+  eval "$1"
+  EXIT_CODE=$?
+  if (( $EXIT_CODE == 0 )); then
+    if [[ $VERBOSE == "true" ]]; then
+      echo "Sucessfully ran script"
+      echo $1
+    fi
+  else
+    echo "There was a problem executing the following script"
+    echo $1
+    exit 150
+  fi
 }
 
-function doGitPull() {
-  echo "doingGitPull"
-  
-}
+doScript ./slink-group/buildSrc/checkVersions.sh
 
 function doHttps() {
-  echo "doingHttps"
-  
+  if [[ $VERBOSE == "true" ]]; then
+    doScript ./slink-group/buildSrc/cloneOrPullDeps.sh --verbose
+    doScript ./slink-group/buildSrc/cloneOrPullLibs.sh --verbose
+    doScript ./slink-group/buildSrc/setupBuildTest.sh --verbose
+  else
+    doScript ./slink-group/buildSrc/cloneOrPullDeps.sh
+    doScript ./slink-group/buildSrc/cloneOrPullLibs.sh
+    doScript ./slink-group/buildSrc/setupBuildTest.sh
+  fi
 }
 
 function doSsl() {
-  echo "doingSsl"
-  
+  if [[ $VERBOSE == "true" ]]; then
+    doScript ./slink-group/buildSrc/cloneOrPullDeps.sh --ssl --verbose
+    doScript ./slink-group/buildSrc/cloneOrPullLibs.sh --ssl --verbose
+    doScript ./slink-group/buildSrc/setupBuildTest.sh --ssl --verbose
+  else
+    doScript ./slink-group/buildSrc/cloneOrPullDeps.sh --ssl 
+    doScript ./slink-group/buildSrc/cloneOrPullLibs.sh --ssl 
+    doScript ./slink-group/buildSrc/setupBuildTest.sh --ssl 
+  fi
 }
 
-function doLocal() {
-  echo "doingLocal"
-  
-}
 case "$GIT_PROTOCOL" in
-  https)
-      doHttps
+  https) doHttps
       ;;
   ssl)
       doSsl
