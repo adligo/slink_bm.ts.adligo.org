@@ -2,8 +2,6 @@
 
 Workflow 3 can be done either in Jenkins running inside of Docker, or Jenkins running on your local machine.
 
-TODO this section is not complete
-
 ## 3.a) Jenkins in Docker
 
 ### Step 3.a.1) 
@@ -38,34 +36,42 @@ Set the shell to /bin/bash in Jenkins Management;
 
 ![Jenkins with Bash as the default Shell](JenkinsWithBashSetup.png)
 
-Also these commands might come in handy;
-
-On Windows in Git Bash;
-```
-winpty docker exec -it -u root <containerId/> bash
-```
-On Max Os or other Unix
-```
-docker exec -it -u root <containerId/> bash
-```
-Then 
-```
-cat /var/jenkins_home/secrets/initialAdminPassword
-```
-
 
 ## 3.b) Jenkins directly on your local machine
 
 <strong><b>Note:</b></strong> You will want to do this if you are a maintainer, since you will be able to see if you break the build on GitHub before you send source code there.
 
-### Step 1)
+### Step 3.b.1)
 
-You will need to install Java
+You will need to install Java, follow the instructions here;
+
+[https://openjdk.org/](https://openjdk.org/)
+
+### Step 3.b.2)
+
+Install and Run Jenkins, use the war file;
+
+[https://www.jenkins.io/download/](https://www.jenkins.io/download/)
+
+i.e.
+Generic Java package (.war)
+bfa31f1e3aacebb5bce3d5076c73df97bf0c0567eeb8d8738f54f6bac48abd74
+
+Then from the GitBash command line;
+
+```
+java -jar jenkins.war --enable-future-java
+```
 
 
 
 ...
 ## 3.c) Setup the Jenkins Build
+
+Once you have Jenkins up install the default dependencies and setup your administrator users then;
+
+
+#### 3.c.2) Setup the Job(s)
 
 Once you have Jenkins up and running create a 'New Item';
 
@@ -75,10 +81,16 @@ Then use a freestyle project;
 
 ![Jenkins Freestyle Project](FreestyleProject.png)
 
-### 3.c.1) Use the jenkins.sh for your 'Execute Shell' build steps;
+### 3.c.3) Use the jenkins.sh for your 'Execute Shell' build steps;
 
-[Step 1) A optional cleaning step jenkins_clean.sh](../jenkins_clean.sh) 
-[Step 2) jenkins_clean.sh](../jenkins_clean.sh) 
+#### Optional Steps
+
+[Optional Step 1) jenkins_echo_adligo_docker_id.sh](../jenkins/jenkins_echo_adligo_docker_id.sh) 
+[Optional Step 2) jenkins_clean.sh](../jenkins/jenkins_clean.sh) 
+
+#### Build Steps
+
+[Build Step 1) jenkins.sh](../jenkins/jenkins.sh) 
 
 ##### Note:
 
