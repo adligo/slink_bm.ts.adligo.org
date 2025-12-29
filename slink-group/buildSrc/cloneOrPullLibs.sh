@@ -91,7 +91,7 @@ else
 fi
 
 if [[ $LOCAL_BUILD == "true" ]]; then
-  npm run git-clone-or-pull -- --LOCAL_REPOSITORY_ROOT $LOCAL_REPOSITORY_ROOT
+  npm run git-clone-or-pull-local -- --LOCAL_REPOSITORY_ROOT $LOCAL_REPOSITORY_ROOT
 else
   npm run git-clone-or-pull
 fi
