@@ -31,6 +31,7 @@ function doCd() {
 }
 
 function doLocalClone () {
+  echo "in doLocalClone in cloneOrPullLibs.sh"
   if [[ -d "$LOCAL_REPOSITORY_ROOT/slink_group.ts.adligo" ]]; then
       git clone $LOCAL_REPOSITORY_ROOT/slink_group.ts.adligo
   else
