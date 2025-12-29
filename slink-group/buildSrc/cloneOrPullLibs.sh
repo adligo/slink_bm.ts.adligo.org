@@ -16,6 +16,9 @@ while (( "$#" )); do
   esac
 done
 
+echo "in cloneOrPullLibs.sh with LOCAL_BUILD $LOCAL_BUILD"
+echo "LOCAL_REPOSITORY_ROOT $LOCAL_REPOSITORY_ROOT"
+
 function doCd() {
   cd $1
   EXIT_CODE=$?
@@ -104,6 +107,8 @@ else
 fi
 
 echo "in cloneOrPullLibs.sh with LOCAL_BUILD $LOCAL_BUILD"
+echo "LOCAL_REPOSITORY_ROOT $LOCAL_REPOSITORY_ROOT"
+
 if [[ $LOCAL_BUILD == "true" ]]; then
   npm run git-clone-or-pull-local -- --LOCAL_REPOSITORY_ROOT $LOCAL_REPOSITORY_ROOT
 else
