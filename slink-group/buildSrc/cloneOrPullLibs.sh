@@ -90,6 +90,7 @@ else
   doCd slink_group.ts.adligo.org
 fi
 
+echo "in cloneOrPullLibs.sh with LOCAL_BUILD $LOCAL_BUILD"
 if [[ $LOCAL_BUILD == "true" ]]; then
   npm run git-clone-or-pull-local -- --LOCAL_REPOSITORY_ROOT $LOCAL_REPOSITORY_ROOT
 else
