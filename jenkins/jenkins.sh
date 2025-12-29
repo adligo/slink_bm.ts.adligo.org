@@ -6,7 +6,7 @@
 # If your a maintainer feel free to update when they differ from the line numbers.
 # 
 
-VERSION="2025-12-28#6"
+VERSION="2025-12-28#7"
 ### Configuration Section ###
 #
 # ORIGIN one of {'github','localdisk'}
@@ -215,16 +215,16 @@ function doLocal () {
     ./buildSrc/cloneOrPullLibs.sh --local-build --verbose --local-repository-root $GIT_REPOSITORY_BASE
     doAfterScript "./buildSrc/cloneOrPullLibs.sh --local-build --verbose --local-repository-root $GIT_REPOSITORY_BASE"
     doCd slink_group.ts.adligo.org
-    ../buildSrc/setupBuildTest.sh --local-build --verbose --local-repository-root $GIT_REPOSITORY_BASE
-    doAfterScript "../buildSrc/setupBuildTest.sh --local-build --verbose --local-repository-root $GIT_REPOSITORY_BASE"
+    ../buildSrc/setupBuildTest.sh --verbose
+    doAfterScript "../buildSrc/setupBuildTest.sh --verbose"
   else
     ./buildSrc/cloneOrPullDeps.sh --local-build --local-repository-root $GIT_REPOSITORY_BASE
     doAfterScript "./buildSrc/cloneOrPullDeps.sh --local-build --local-repository-root $GIT_REPOSITORY_BASE"
     ./buildSrc/cloneOrPullLibs.sh --local-build --local-repository-root $GIT_REPOSITORY_BASE
     doAfterScript "./buildSrc/cloneOrPullLibs.sh --local-build --local-repository-root $GIT_REPOSITORY_BASE"
     doCd slink_group.ts.adligo.org
-    ../buildSrc/setupBuildTest.sh --local-build --local-repository-root $GIT_REPOSITORY_BASE
-    doAfterScript "../buildSrc/setupBuildTest.sh --local-build --local-repository-root $GIT_REPOSITORY_BASE"
+    ../buildSrc/setupBuildTest.sh
+    doAfterScript "../buildSrc/setupBuildTest.sh"
   fi
 }
 
