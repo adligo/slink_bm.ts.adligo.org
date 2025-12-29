@@ -33,7 +33,11 @@ function doCd() {
 function doLocalClone () {
   echo "in doLocalClone in cloneOrPullLibs.sh"
   if [[ -d "$LOCAL_REPOSITORY_ROOT/slink_group.ts.adligo" ]]; then
-      git clone $LOCAL_REPOSITORY_ROOT/slink_group.ts.adligo
+    if [[ $VERBOSE == "true" ]]; then
+      echo "git clone from https://github.com/adligo/slink_group.ts.adligo.org.git"
+      pwd
+    fi
+    git clone $LOCAL_REPOSITORY_ROOT/slink_group.ts.adligo
   else
     echo "Unable to clone the following repository the path doesn't exist"
     echo $LOCAL_REPOSITORY_ROOT/slink_group.ts.adligo
@@ -71,10 +75,18 @@ if [[ -d "slink_group.ts.adligo.org" ]]; then
   fi
 else
   if [[ $SSL == "true" ]]; then
+    if [[ $VERBOSE == "true" ]]; then
+      echo "git clone from git@github.com:adligo/slink_group.ts.adligo.org.git"
+      pwd
+    fi
     git clone git@github.com:adligo/slink_group.ts.adligo.org.git
   elif [[ $LOCAL_BUILD == "true " ]]; then
     doLocalClone
   else
+    if [[ $VERBOSE == "true" ]]; then
+      echo "git clone from https://github.com/adligo/slink_group.ts.adligo.org.git"
+      pwd
+    fi
     git clone https://github.com/adligo/slink_group.ts.adligo.org.git
   fi
   EXIT_CODE=$?
