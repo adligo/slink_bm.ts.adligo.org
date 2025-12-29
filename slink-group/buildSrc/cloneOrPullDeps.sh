@@ -34,7 +34,7 @@ function doCd() {
 function doLocalClone () {
   echo "in doLocalClone in cloneOrPullLibs.sh"
   dir=$LOCAL_REPOSITORY_ROOT
-  dir+=slink_group_deps.ts.adligo
+  dir+=slink_group_deps.ts.adligo.org
   if [[ -d "$dir" ]]; then
     if [[ $VERBOSE == "true" ]]; then
       echo "git clone from $dir"
