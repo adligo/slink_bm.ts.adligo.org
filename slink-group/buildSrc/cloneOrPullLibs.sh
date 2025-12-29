@@ -83,7 +83,7 @@ else
       pwd
     fi
     git clone git@github.com:adligo/slink_group.ts.adligo.org.git
-  elif [[ $LOCAL_BUILD == "true " ]]; then
+  elif [[ $LOCAL_BUILD == "true" ]]; then
     doLocalClone
   else
     if [[ $VERBOSE == "true" ]]; then

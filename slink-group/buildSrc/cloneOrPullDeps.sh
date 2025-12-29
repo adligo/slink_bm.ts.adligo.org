@@ -58,7 +58,7 @@ if [[ -d "slink_group_deps.ts.adligo.org" ]]; then
 else
   if [[ $SSL == "true" ]]; then
     git clone git@github.com:adligo/slink_group_deps.ts.adligo.org.git
-  elif [[ $LOCAL_BUILD == "true " ]]; then
+  elif [[ $LOCAL_BUILD == "true" ]]; then
     doLocalClone
   else
     git clone https://github.com/adligo/slink_group_deps.ts.adligo.org.git
