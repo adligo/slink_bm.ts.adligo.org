@@ -32,11 +32,18 @@ function doCd() {
 }
 
 function doLocalClone () {
-  if [[ -d "$LOCAL_REPOSITORY_ROOT/slink_group.ts.adligo" ]]; then
-      git clone $LOCAL_REPOSITORY_ROOT/slink_group.ts.adligo
+  echo "in doLocalClone in cloneOrPullLibs.sh"
+  dir=$LOCAL_REPOSITORY_ROOT
+  dir+=slink_group_deps.ts.adligo
+  if [[ -d "$dir" ]]; then
+    if [[ $VERBOSE == "true" ]]; then
+      echo "git clone from $dir"
+      pwd
+    fi
+    git clone $dir
   else
     echo "Unable to clone the following repository the path doesn't exist"
-    echo $LOCAL_REPOSITORY_ROOT/slink_group.ts.adligo
+    echo $dir
     exit 39
   fi  
 }
