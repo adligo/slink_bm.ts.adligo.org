@@ -6,7 +6,7 @@
 # If your a maintainer feel free to update when they differ from the line numbers.
 # 
 
-VERSION="2025-12-28#5"
+VERSION="2025-12-28#6"
 ### Configuration Section ###
 #
 # ORIGIN one of {'github','localdisk'}
@@ -16,6 +16,11 @@ ORIGIN=github
 # GIT_PROTOCOL one of {'https','ssh','local'}
 #
 GIT_PROTOCOL=https
+#
+# This is also the base directory for local builds
+# i.e. 
+# GIT_REPOSITORY_BASE='~/adligo-repos/'
+#
 GIT_REPOSITORY_BASE=$GIT_PROTOCOL'://github.com/adligo/'
 #
 # This is used for the directory path as well
@@ -182,6 +187,20 @@ function doSsl () {
   fi
 }
 
+function doLocal () {
+  if [[ $VERBOSE == "true" ]]; then
+    doScript ./buildSrc/cloneOrPullDeps.sh --local-build --verbose --local-repository-root $GIT_REPOSITORY_BASE
+    doScript ./buildSrc/cloneOrPullLibs.sh --local-build --verbose --local-repository-root $GIT_REPOSITORY_BASE
+    doCd slink_group.ts.adligo.org
+    doScript ../buildSrc/setupBuildTest.sh --local-build --verbose --local-repository-root $GIT_REPOSITORY_BASE
+  else
+    doScript ./buildSrc/cloneOrPullDeps.sh --local-build --local-repository-root $GIT_REPOSITORY_BASE
+    doScript ./buildSrc/cloneOrPullLibs.sh --local-build --local-repository-root $GIT_REPOSITORY_BASE
+    doCd slink_group.ts.adligo.org
+    doScript ../buildSrc/setupBuildTest.sh --local-build --local-repository-root $GIT_REPOSITORY_BASE
+  fi
+}
+
 echo "in jenkins_from_github.sh"
 pwd
 doCd slink-group
@@ -208,7 +227,7 @@ mkdir test-results
 cp -r $ROOT_WORKSPACE/$WORK_DIR_ID/$GIT_REPOSITORY_PATH/slink-group/slink_group.ts.adligo.org/depot/test-results/**.*xml test-results
 # rsync -avm --include='*.xml' -f 'hide,! */' $ROOT_WORKSPACE/$WORK_DIR_ID/$GIT_REPOSITORY_PATH/slink_group.ts.adligo.org/depot/test-results test-results/
 echo "You can now publish using the JUnit Test Repoter with the following path;"
-echo "test-results/**.*xml"
+echo "test-results/*.xml"
 
 duration=$(( SECONDS - START ))
 if (( $duration > MAX_SECONDS )) ; then

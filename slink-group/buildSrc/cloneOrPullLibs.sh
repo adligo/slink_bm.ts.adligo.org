@@ -9,6 +9,8 @@ SSL=false
 while (( "$#" )); do
   #echo "$1"
   case "$1" in
+    -l | --local-build) LOCAL_BUILD=true; shift 1 ;;
+    -r | --local-repository-root) LOCAL_REPOSITORY_ROOT="$1"; shift 2 ;;
     -s | --ssl) SSL=true; shift 1 ;;
     -v | --verbose) VERBOSE=true; shift 1 ;;
   esac
@@ -23,9 +25,19 @@ function doCd() {
     fi
   else
     echo "Unable to move(change) into $1"
-    exit 79
+    exit 28
   fi
   
+}
+
+function doLocalClone () {
+  if [[ -d "$LOCAL_REPOSITORY_ROOT/slink_group.ts.adligo" ]]; then
+      git clone $LOCAL_REPOSITORY_ROOT/slink_group.ts.adligo
+  else
+    echo "Unable to clone the following repository the path doesn't exist"
+    echo $LOCAL_REPOSITORY_ROOT/slink_group.ts.adligo
+    exit 39
+  fi  
 }
 
 pwd
@@ -58,9 +70,11 @@ if [[ -d "slink_group.ts.adligo.org" ]]; then
   fi
 else
   if [[ $SSL == "true" ]]; then
-      git clone git@github.com:adligo/slink_group.ts.adligo.org.git
+    git clone git@github.com:adligo/slink_group.ts.adligo.org.git
+  elif [[ $LOCAL_BUILD == "true " ]]; then
+    doLocalClone
   else
-      git clone https://github.com/adligo/slink_group.ts.adligo.org.git
+    git clone https://github.com/adligo/slink_group.ts.adligo.org.git
   fi
   EXIT_CODE=$?
   if (( $EXIT_CODE == 0 )); then
@@ -76,7 +90,11 @@ else
   doCd slink_group.ts.adligo.org
 fi
 
-npm run git-clone-or-pull
+if [[ $LOCAL_BUILD == "true" ]]; then
+  npm run git-clone-or-pull -- --LOCAL_REPOSITORY_ROOT $LOCAL_REPOSITORY_ROOT
+else
+  npm run git-clone-or-pull
+fi
 EXIT_CODE=$?
 if (( $EXIT_CODE == 0 )); then
   if [[ $VERBOSE == "true" ]]; then

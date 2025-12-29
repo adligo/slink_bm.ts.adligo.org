@@ -63,7 +63,8 @@ bfa31f1e3aacebb5bce3d5076c73df97bf0c0567eeb8d8738f54f6bac48abd74
 Then from the GitBash command line;
 
 ```
-java -jar jenkins.war --enable-future-java
+java -jar jenkins.war --enable-future-java --httpPort=8081
+
 ```
 
 

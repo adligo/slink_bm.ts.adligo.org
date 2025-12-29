@@ -9,6 +9,8 @@ SSL=false
 while (( "$#" )); do
   #echo "$1"
   case "$1" in
+    -l | --local-build) LOCAL_BUILD=true; shift 1 ;;
+    -r | --local-repository-root) LOCAL_REPOSITORY_ROOT="$1"; shift 2 ;;
     -s | --ssl) SSL=true; shift 1 ;;
     -v | --verbose) VERBOSE=true; shift 1 ;;
   esac
@@ -29,6 +31,15 @@ function doCd() {
   
 }
 
+function doLocalClone () {
+  if [[ -d "$LOCAL_REPOSITORY_ROOT/slink_group.ts.adligo" ]]; then
+      git clone $LOCAL_REPOSITORY_ROOT/slink_group.ts.adligo
+  else
+    echo "Unable to clone the following repository the path doesn't exist"
+    echo $LOCAL_REPOSITORY_ROOT/slink_group.ts.adligo
+    exit 39
+  fi  
+}
 
 if [[ -d "slink_group_deps.ts.adligo.org" ]]; then
   doCd slink_group_deps.ts.adligo.org
@@ -46,9 +57,11 @@ if [[ -d "slink_group_deps.ts.adligo.org" ]]; then
   fi
 else
   if [[ $SSL == "true" ]]; then
-      git clone git@github.com:adligo/slink_group_deps.ts.adligo.org.git
+    git clone git@github.com:adligo/slink_group_deps.ts.adligo.org.git
+  elif [[ $LOCAL_BUILD == "true " ]]; then
+    doLocalClone
   else
-      git clone https://github.com/adligo/slink_group_deps.ts.adligo.org.git
+    git clone https://github.com/adligo/slink_group_deps.ts.adligo.org.git
   fi
   EXIT_CODE=$?
   if (( $EXIT_CODE == 0 )); then
