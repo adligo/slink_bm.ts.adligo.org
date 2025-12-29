@@ -5,12 +5,13 @@ WORKDIR /opt
 RUN curl --location --show-error -O --url "https://bun.sh/install"
 RUN bash /opt/install
 RUN npm install -g typescript ts ts-node @types/node
-RUN npm install -g @ts.adligo.org/slink@1.5.3
+RUN npm install -g @ts.adligo.org/slink@1.5.9
 
 
 WORKDIR /app
 COPY . . 
 WORKDIR /app/slink_group_deps.ts.adligo.org
+RUN ls
 RUN npm install
 WORKDIR /app/slink_group.ts.adligo.org
 RUN npm run setup
