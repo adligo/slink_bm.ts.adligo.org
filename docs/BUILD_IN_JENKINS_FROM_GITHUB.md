@@ -34,8 +34,10 @@ docker run -d -p 8528:8080 --name slink-bm3-c4 slink-bm3
 
 Set the shell to /bin/bash in Jenkins Management;
 
-![Jenkins System Management](JenkinsSystemManagement.png)
-![Jenkins with Bash as the default Shell](JenkinsWithBashSetup.png)
+<!-- w 894 h 675 / 3 -->
+<img src="JenkinsSystemManagement.png" alt="Jenkins System Management" width="298" height="225" />
+<!-- w 2787 h 1656 / 3 -->
+<img src="JenkinsWithBashSetup.png" alt="Jenkins with Bash as the default Shell" width="929" height="553" />
 
 
 ## 3.b) Jenkins directly on your local machine
@@ -76,18 +78,20 @@ Once you have Jenkins up install the default dependencies and setup your adminis
 
 Once you have Jenkins up and running create a 'New Item';
 
-![Jenkins New Item](JenkinsNewItem.png)
+<!-- w 671 h 744 / 3 -->
+<img src="JenkinsNewItem.png" alt="Jenkins New Item" width="223" height="248" />
 
 Then use a freestyle project;
 
-![Jenkins Freestyle Project](JenkinsFreestyleProject.png)
+<!-- w 2787 h 1656 / 3 -->
+<img src="JenkinsFreestyleProject.png" alt="Jenkins Freestyle Project" width="929" height="552" />
 
 ### 3.c.3) Use the jenkins.sh for your 'Execute Shell' build steps;
 
 #### Optional Steps
 
-[Optional Step 1) jenkins_echo_adligo_docker_id.sh](../jenkins/jenkins_echo_adligo_docker_id.sh) 
-[Optional Step 2) jenkins_clean.sh](../jenkins/jenkins_clean.sh) 
+- [Optional Step 1) jenkins_echo_adligo_docker_id.sh](../jenkins/jenkins_echo_adligo_docker_id.sh) 
+- [Optional Step 2) jenkins_clean.sh](../jenkins/jenkins_clean.sh) 
 
 #### Build Steps
 
