@@ -48,6 +48,8 @@ export TESTS4TS_NODE_MODULE_SLINK=$COMMON_NODE_MODULES
 export JUNIT_XML_NODE_MODULE_SLINK=$COMMON_NODE_MODULES
 export OBJ_NODE_MODULE_SLINK=$COMMON_NODE_MODULES
 export SLINK_NODE_MODULE_SLINK=$COMMON_NODE_MODULES
+
+
 ### Execution Section ###
 which git
 EXIT_CODE=$?
@@ -139,9 +141,10 @@ else
   doCd $GIT_REPOSITORY_PATH
 fi
 
-function doScript () {
-  echo "doingScript $1"
-  eval "$1"
+
+
+function doAfterScript () {
+  echo "doAfterScript $1"
   EXIT_CODE=$?
   if (( $EXIT_CODE == 0 )); then
     if [[ $VERBOSE == "true" ]]; then
@@ -157,51 +160,75 @@ function doScript () {
   fi
 }
 
-doScript ./slink-group/buildSrc/checkVersions.sh
-
+./slink-group/buildSrc/checkVersions.sh
+doAfterScript "./slink-group/buildSrc/checkVersions.sh"
 function doHttps () {
   if [[ $VERBOSE == "true" ]]; then
-    doScript ./buildSrc/cloneOrPullDeps.sh --verbose
-    doScript ./buildSrc/cloneOrPullLibs.sh --verbose
+    echo "jenkins.sh doHttps"
+    ./buildSrc/cloneOrPullDeps.sh --verbose
+    doAfterScript "./buildSrc/cloneOrPullDeps.sh --verbose"
+    ./buildSrc/cloneOrPullLibs.sh --verbose
+    doAfterScript "./buildSrc/cloneOrPullLibs.sh --verbose"
     doCd slink_group.ts.adligo.org
-    doScript ../buildSrc/setupBuildTest.sh --verbose
+    ../buildSrc/setupBuildTest.sh --verbose
+    doAfterScript "../buildSrc/setupBuildTest.sh --verbose"
   else
-    doScript ./buildSrc/cloneOrPullDeps.sh
-    doScript ./buildSrc/cloneOrPullLibs.sh
+    ./buildSrc/cloneOrPullDeps.sh
+    doAfterScript "./buildSrc/cloneOrPullDeps.sh"
+    ./buildSrc/cloneOrPullLibs.sh
+    doAfterScript "./buildSrc/cloneOrPullLibs.sh"
     doCd slink_group.ts.adligo.org
-    doScript ../buildSrc/setupBuildTest.sh
+    ../buildSrc/setupBuildTest.sh
+    doAfterScript "../buildSrc/setupBuildTest.sh"
   fi
 }
 
 function doSsl () {
   if [[ $VERBOSE == "true" ]]; then
-    doScript ./buildSrc/cloneOrPullDeps.sh --ssl --verbose
-    doScript ./buildSrc/cloneOrPullLibs.sh --ssl --verbose
+    echo "jenkins.sh doSsl"
+    ./buildSrc/cloneOrPullDeps.sh --ssl --verbose
+    doAfterScript "./buildSrc/cloneOrPullDeps.sh --ssl --verbose"
+    ./buildSrc/cloneOrPullLibs.sh --ssl --verbose
+    doAfterScript "./buildSrc/cloneOrPullLibs.sh --ssl --verbose"
     doCd slink_group.ts.adligo.org
-    doScript ../buildSrc/setupBuildTest.sh --ssl --verbose
+    ../buildSrc/setupBuildTest.sh --ssl --verbose
+    doAfterScript "../buildSrc/setupBuildTest.sh --ssl --verbose"
   else
-    doScript ./buildSrc/cloneOrPullDeps.sh --ssl
-    doScript ./buildSrc/cloneOrPullLibs.sh --ssl
+    ./buildSrc/cloneOrPullDeps.sh --ssl
+    doAfterScript "./buildSrc/cloneOrPullDeps.sh --ssl"
+    ./buildSrc/cloneOrPullLibs.sh --ssl
+    doAfterScript "./buildSrc/cloneOrPullLibs.sh --ssl"
     doCd slink_group.ts.adligo.org
-    doScript ../buildSrc/setupBuildTest.sh --ssl
+    ../buildSrc/setupBuildTest.sh --ssl
+    doAfterScript "../buildSrc/setupBuildTest.sh --ssl"
   fi
 }
 
+#
+# What procedural code looked like before oo yuk!
+#
 function doLocal () {
   if [[ $VERBOSE == "true" ]]; then
-    doScript ./buildSrc/cloneOrPullDeps.sh --local-build --verbose --local-repository-root $GIT_REPOSITORY_BASE
-    doScript ./buildSrc/cloneOrPullLibs.sh --local-build --verbose --local-repository-root $GIT_REPOSITORY_BASE
+    echo "jenkins.sh doLocal"
+    ./buildSrc/cloneOrPullDeps.sh --local-build --verbose --local-repository-root $GIT_REPOSITORY_BASE
+    doAfterScript "./buildSrc/cloneOrPullDeps.sh --local-build --verbose --local-repository-root $GIT_REPOSITORY_BASE"
+    ./buildSrc/cloneOrPullLibs.sh --local-build --verbose --local-repository-root $GIT_REPOSITORY_BASE
+    doAfterScript "./buildSrc/cloneOrPullLibs.sh --local-build --verbose --local-repository-root $GIT_REPOSITORY_BASE"
     doCd slink_group.ts.adligo.org
-    doScript ../buildSrc/setupBuildTest.sh --local-build --verbose --local-repository-root $GIT_REPOSITORY_BASE
+    ../buildSrc/setupBuildTest.sh --local-build --verbose --local-repository-root $GIT_REPOSITORY_BASE
+    doAfterScript "../buildSrc/setupBuildTest.sh --local-build --verbose --local-repository-root $GIT_REPOSITORY_BASE"
   else
-    doScript ./buildSrc/cloneOrPullDeps.sh --local-build --local-repository-root $GIT_REPOSITORY_BASE
-    doScript ./buildSrc/cloneOrPullLibs.sh --local-build --local-repository-root $GIT_REPOSITORY_BASE
+    ./buildSrc/cloneOrPullDeps.sh --local-build --local-repository-root $GIT_REPOSITORY_BASE
+    doAfterScript "./buildSrc/cloneOrPullDeps.sh --local-build --local-repository-root $GIT_REPOSITORY_BASE"
+    ./buildSrc/cloneOrPullLibs.sh --local-build --local-repository-root $GIT_REPOSITORY_BASE
+    doAfterScript "./buildSrc/cloneOrPullLibs.sh --local-build --local-repository-root $GIT_REPOSITORY_BASE"
     doCd slink_group.ts.adligo.org
-    doScript ../buildSrc/setupBuildTest.sh --local-build --local-repository-root $GIT_REPOSITORY_BASE
+    ../buildSrc/setupBuildTest.sh --local-build --local-repository-root $GIT_REPOSITORY_BASE
+    doAfterScript "../buildSrc/setupBuildTest.sh --local-build --local-repository-root $GIT_REPOSITORY_BASE"
   fi
 }
 
-echo "in jenkins_from_github.sh"
+echo "in jenkins_from_github.sh with GIT_PROTOCOL $GIT_PROTOCOL"
 pwd
 doCd slink-group
 

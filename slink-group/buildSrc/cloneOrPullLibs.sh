@@ -10,7 +10,7 @@ while (( "$#" )); do
   #echo "$1"
   case "$1" in
     -l | --local-build) LOCAL_BUILD=true; shift 1 ;;
-    -r | --local-repository-root) LOCAL_REPOSITORY_ROOT="$1"; shift 2 ;;
+    -r | --local-repository-root) LOCAL_REPOSITORY_ROOT="$2"; shift 2 ;;
     -s | --ssl) SSL=true; shift 1 ;;
     -v | --verbose) VERBOSE=true; shift 1 ;;
   esac
