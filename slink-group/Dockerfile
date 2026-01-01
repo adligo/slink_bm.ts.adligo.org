@@ -14,10 +14,11 @@ WORKDIR /app/slink_group_deps.ts.adligo.org
 RUN ls
 RUN npm install
 WORKDIR /app/slink_group.ts.adligo.org
+ENV USHELL="/bin/bash"
 RUN npm run setup
 WORKDIR /app
 RUN chmod +x check_versions.sh
 RUN chmod +x run_tests.sh
 ENV PATH="$PATH:/root/.bun/bin"
-ENV USHELL="/bin/bash"
+
 CMD ["bash"]

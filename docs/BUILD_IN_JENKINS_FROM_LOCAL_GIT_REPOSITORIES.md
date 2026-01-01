@@ -2,43 +2,79 @@
 
 In order to use this work flow you must setup Jenkins on your local machine (with out Docker).  
 
-### Windows Install / Setup Notes
+### Jenkins Setup Notes
+
+You will need to install Java, follow the instructions here;
+
+[https://openjdk.org/](https://openjdk.org/)
 
 I suggest installing Jenkins by simply downloading the jenkins.war file and using GitBash to run it with a command like;
 
 ```
-java -jar jenkins.war --enable-future-java
+java -jar jenkins.war --enable-future-java --httpPort=8081
 ```
 
+## Creating Local Repositories
 
+You will need to clone the GitHub repositories locally and then also push to those repositories;
 
-### Unix Install / Setup Notes
-
-TODO
-
-## Creating the Jobs
-
-Use the password from the console and create a Freestyle Project with the name;
+Repository List
 
 ```
-slink-bm.ts.adligo.org_<your_drive_letter>
-i.e.
-slink-bm.ts.adligo.org_p
+slink_bm.ts.adligo.org
+slink_group.ts.adligo.org
+slink_group_deps.ts.adligo.org
+i_io.ts.adligo.org
+i_obj.ts.adligo.org
+i_strings.ts.adligo.org
+i_tests4ts_types.ts.adligo.org
+i_tests4ts.ts.adligo.org
+junit-xml-tests4j_tests.ts.adligo.org
+junit-xml-tests4j.ts.adligo.org
+slink_tests.ts.adligo.org
+slink.ts.adligo.org
+tests4ts_tests.ts.adligo.org
+tests4ts.ts.adligo.org
+type-guards_tests.ts.adligo.org
+type-guards.ts.adligo.org
 ```
 
-
-
-
-
-## Export The LOCAL_REPO_ROOT Environment Variable
-
-Add a Execute Shell build step and export the LOCAL_REPO_ROOT environment variable for your build.  Note if you have multiple drives you may need to change this to <DriveLetter/>_REPO_ROOT.  
+Create a repositories folder and work directory on your local disk;
 
 ```
-export LOCAL_REPO_ROOT=~/repos/ts-org/
+mkdir ~/my_repos
+mkdir ~/my_work
 ```
 
-## The Build Scripts
+For each repository create a local repository, clone it from git hub, add a remote link to the local repository and push to the local repository (known as a remote to the git program).
+
+```
+#create the local repository
+mkdir ~/my_repos/slink_bm.ts.adligo.org
+cd ~/my_repos/slink_bm.ts.adligo.org
+git init --bare
+
+# clone the repository from git hub
+cd ~/my_work
+git clone https://github.com/adligo/slink_bm.ts.adligo.org.git
+
+#add a remote link to the local repository
+cd ~/my_work/slink_bm.ts.adligo.org
+git remote add home ~/my_work/slink_bm.ts.adligo.org
+
+#push to the local repository 
+git push home
+```
+
+Since there are 15 repositories this will take some time.  Eventually the Fabricate tool (fab on the cli) will help with this.
+
+## Creating the Jobs in Jenkins
+
+
+
+
+
+
 
 
 ##### Note:
