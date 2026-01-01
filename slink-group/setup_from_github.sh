@@ -3,4 +3,4 @@
 # Not in use from Jenkins
 
 ROOT_DIR=`pwd`
-./buildSrc/everything.sh --verbose --root-dir --ssl $ROOT_DIR
+./buildSrc/everything.sh --verbose --ssl --root-dir $ROOT_DIR
