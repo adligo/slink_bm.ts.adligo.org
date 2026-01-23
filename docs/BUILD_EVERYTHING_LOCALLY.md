@@ -12,13 +12,21 @@ This workflow requires that you setup your machine with node and GitBash;
 
 ### Step 3)
 
+Install TypeScript and c8 globally
+
+```
+npm install -g typescript c8
+```
+
+### Step 4)
+
 [Install SLink](https://www.npmjs.com/package/@ts.adligo.org/slink), note this is somewhat counter intuitive [@see note](https://github.com/adligo/slink_bm.ts.adligo.org/tree/main?tab=readme-ov-file#slink-historical-notes);
 
 ```
 npm install -g @ts.adligo.org/slink
 ```
 
-### Step 4)
+### Step 5)
 
 Clone this repository from github.com from the GitBash command prompt with the following command;
 
@@ -26,7 +34,7 @@ Clone this repository from github.com from the GitBash command prompt with the f
 git clone https://github.com/adligo/slink_bm.ts.adligo.org.git
 ```
 
-### Step 5)
+### Step 6)
 
 Download the dependencies, and run the full build and tests
 
@@ -39,7 +47,7 @@ Make sure you are using the <strong><b>setup_from_github_https.sh</b></strong> s
 
 ![Picture of Steps 4-5](BuildEveythingSteps4-5.png)
 
-### Step 6)
+### Step 7)
 
 Now you can run the following build and test commands at any point;
 
